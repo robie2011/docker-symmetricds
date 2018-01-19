@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  db1:
+    image: "wnameless/mysql-phpmyadmin"
+  db2:
+    image: "wnameless/mysql-phpmyadmin"
+  sym0:
+    build: .
+  sym1:
+    build: .
+  #   environment:
+  #     url_jarsetup: http://172.17.0.2/index.php/s/d5TFlBN8PLlmKb0/download
