@@ -1,13 +1,59 @@
 version: '3'
 
 services:
+  db0:
+    container_name: db0
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes: 
+      - ./data:/data
+    networks:
+      sym_net:
+        ipv4_address: 172.16.10.100
+  
   db1:
-    image: "wnameless/mysql-phpmyadmin"
-  db2:
-    image: "wnameless/mysql-phpmyadmin"
+    container_name: db1
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes: 
+      - ./data:/data
+    networks:
+      sym_net:
+        ipv4_address: 172.16.10.101
+
+  # adminer:
+  #   container_name: adminer
+  #   image: adminer
+  #   ports:
+  #     - 8888:8080
+  #   networks:
+  #     sym_net:
+  #       ipv4_address: 172.16.10.200
+  
   sym0:
+    container_name: sym0
     build: .
+    environment:
+      url_jarsetup: http://10.223.1.195:8080/index.php/s/xJ4q7t0dTlJwA1h/download
+    networks:
+      sym_net:
+        ipv4_address: 172.16.10.10
+
   sym1:
+    container_name: sym1
     build: .
-  #   environment:
-  #     url_jarsetup: http://172.17.0.2/index.php/s/d5TFlBN8PLlmKb0/download
+    environment:
+      url_jarsetup: http://10.223.1.195:8080/index.php/s/xJ4q7t0dTlJwA1h/download
+    networks:
+      sym_net:
+        ipv4_address: 172.16.10.11
+
+networks:
+  sym_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.10.0/24
