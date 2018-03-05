@@ -3,9 +3,11 @@ version: '3'
 services:
   db0:
     container_name: db0
+    hostname: db0
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      TZ: "Europe/Zurich"
     volumes: 
       - ./data:/data
     networks:
@@ -14,9 +16,11 @@ services:
   
   db1:
     container_name: db1
+    hostname: db1
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      TZ: "Europe/Zurich"
     volumes: 
       - ./data:/data
     networks:
@@ -34,18 +38,26 @@ services:
   
   sym0:
     container_name: sym0
+    hostname: sym0
     build: .
+    depends_on:
+      - db0
     environment:
-      url_jarsetup: http://10.223.1.195:8080/index.php/s/xJ4q7t0dTlJwA1h/download
+      url_jarsetup: http://data.predestined.de/index.php/s/95Zt4fQ9absagEi/download
+      TZ: "Europe/Zurich"
     networks:
       sym_net:
         ipv4_address: 172.16.10.10
 
   sym1:
     container_name: sym1
+    hostname: sym1
     build: .
+    depends_on:
+      - db1
     environment:
-      url_jarsetup: http://10.223.1.195:8080/index.php/s/xJ4q7t0dTlJwA1h/download
+      url_jarsetup: http://data.predestined.de/index.php/s/95Zt4fQ9absagEi/download
+      TZ: "Europe/Zurich"
     networks:
       sym_net:
         ipv4_address: 172.16.10.11
